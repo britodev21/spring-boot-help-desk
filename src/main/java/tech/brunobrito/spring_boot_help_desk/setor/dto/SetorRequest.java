@@ -1,4 +1,4 @@
-package tech.brunobrito.spring_boot_help_desk.Setor.dto;
+package tech.brunobrito.spring_boot_help_desk.setor.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

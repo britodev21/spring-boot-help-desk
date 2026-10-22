@@ -1,4 +1,4 @@
-package tech.brunobrito.spring_boot_help_desk.Setor;
+package tech.brunobrito.spring_boot_help_desk.setor;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

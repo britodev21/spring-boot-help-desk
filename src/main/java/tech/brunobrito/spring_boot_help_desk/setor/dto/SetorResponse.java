@@ -1,6 +1,6 @@
-package tech.brunobrito.spring_boot_help_desk.Setor.dto;
+package tech.brunobrito.spring_boot_help_desk.setor.dto;
 
-import tech.brunobrito.spring_boot_help_desk.Setor.Setor;
+import tech.brunobrito.spring_boot_help_desk.setor.Setor;
 
 public record SetorResponse(Long id, String nome, boolean ativo) {
     public static SetorResponse de(Setor Setor) {
