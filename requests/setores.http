@@ -1,0 +1,24 @@
+### Criar setor
+POST http://localhost:8080/setores
+Content-Type: application/json
+
+{
+  "nome": "TI"
+}
+
+### Listar setores ativos
+GET http://localhost:8080/setores
+
+### Desativar setor
+PATCH http://localhost:8080/setores/1/desativar
+
+### Nome vazio deve dar 400
+POST http://localhost:8080/setores
+Content-Type: application/json
+
+{
+  "nome": ""
+}
+
+### Setor inexistente deve dar 404
+PATCH http://localhost:8080/setores/999/desativar
