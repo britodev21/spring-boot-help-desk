@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/helpdesk_dev
+    username: ${DB_USER:helpdesk}
+    password: ${DB_PASSWORD:helpdesk}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
