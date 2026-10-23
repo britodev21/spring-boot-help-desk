@@ -1,0 +1,49 @@
+@baseUrl = http://localhost:8080
+
+### Abrir chamado CRITICA
+POST {{baseUrl}}/chamados
+Content-Type: application/json
+
+{
+  "titulo": "Sistema de vendas fora do ar",
+  "descricao": "Ninguém consegue acessar o sistema desde as 9h",
+  "prioridade": "CRITICA",
+  "setorId": 2,
+  "solicitanteId": 1
+}
+
+### Título vazio deve dar 400
+POST {{baseUrl}}/chamados
+Content-Type: application/json
+
+{
+  "titulo": "",
+  "descricao": "Teste",
+  "prioridade": "BAIXA",
+  "setorId": 2,
+  "solicitanteId": 1
+}
+
+### Prioridade inexistente deve dar 400
+POST {{baseUrl}}/chamados
+Content-Type: application/json
+
+{
+  "titulo": "Teste",
+  "descricao": "Teste",
+  "prioridade": "URGENTISSIMA",
+  "setorId": 2,
+  "solicitanteId": 1
+}
+
+### Solicitante inexistente deve dar 404
+POST {{baseUrl}}/chamados
+Content-Type: application/json
+
+{
+  "titulo": "Teste",
+  "descricao": "Teste",
+  "prioridade": "BAIXA",
+  "setorId": 2,
+  "solicitanteId": 999
+}
