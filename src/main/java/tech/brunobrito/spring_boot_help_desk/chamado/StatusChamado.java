@@ -6,6 +6,10 @@ public enum StatusChamado {
     AGUARDANDO_SOLICITANTE,
     RESOLVIDO,
     FECHADO,
-    CANCELADO
+    CANCELADO;
+
+    public boolean isEncerrado() {
+    return this == RESOLVIDO || this == FECHADO || this == CANCELADO;
+}
 
 }
