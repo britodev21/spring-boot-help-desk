@@ -16,7 +16,7 @@ public enum Prioridade {
         this.horasSla = horasSla;
     }
 
-    public Instant calculcarPrazo(Instant abertura){
+    public Instant calcularPrazo(Instant abertura){
         return abertura.plus(horasSla, ChronoUnit.HOURS);
 
     }
