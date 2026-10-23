@@ -13,7 +13,7 @@ public class Setor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    private Long Id;
+    private Long id;
     private String nome;
     private boolean ativo = true;
 
@@ -28,8 +28,8 @@ public class Setor {
         this.ativo = false;
     }
 
-    public long getId() {
-        return Id;
+    public Long getId() {
+        return id;
     }
 
     public String getNome() {

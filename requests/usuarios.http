@@ -1,0 +1,45 @@
+@baseUrl = http://localhost:8080
+
+### Criar técnico
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Carlos Souza",
+  "email": "carlos@empresa.com",
+  "perfil": "TECNICO",
+  "setorId": 2
+}
+
+### Email repetido deve dar 409
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Outro Carlos",
+  "email": "CARLOS@empresa.com",
+  "perfil": "SOLICITANTE",
+  "setorId": 2
+}
+
+### Email inválido deve dar 400
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Teste",
+  "email": "isso-nao-e-email",
+  "perfil": "SOLICITANTE",
+  "setorId": 2
+}
+
+### Setor inexistente deve dar 404
+POST {{baseUrl}}/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Teste",
+  "email": "teste@empresa.com",
+  "perfil": "SOLICITANTE",
+  "setorId": 999
+}
