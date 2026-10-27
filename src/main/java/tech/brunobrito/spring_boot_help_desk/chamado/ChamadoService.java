@@ -10,6 +10,8 @@ import tech.brunobrito.spring_boot_help_desk.setor.Setor;
 import tech.brunobrito.spring_boot_help_desk.setor.SetorRepository;
 import tech.brunobrito.spring_boot_help_desk.usuario.Usuario;
 import tech.brunobrito.spring_boot_help_desk.usuario.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class ChamadoService {
@@ -33,6 +35,8 @@ public class ChamadoService {
                 .orElseThrow(() -> new RecursoNaoEncontradoException(
                         "Usuário " + request.solicitanteId() + " não encontrado"));
 
+        
+
         Setor setor = setorRepository.findById(request.setorId())
                 .filter(Setor::isAtivo)
                 .orElseThrow(() -> new RecursoNaoEncontradoException(
@@ -43,4 +47,20 @@ public class ChamadoService {
 
         return ChamadoResponse.de(chamadoRepository.save(chamado));
     }
-}
+
+    @Transactional(readOnly = true)
+    public Page<ChamadoResponse> listar(StatusChamado status, Pageable pageable) {
+        Page<Chamado> pagina = (status == null)
+                ? chamadoRepository.findAll(pageable)
+                : chamadoRepository.findByStatus(status, pageable);
+        return pagina.map(ChamadoResponse::de);
+    }
+
+    @Transactional(readOnly = true)
+    public ChamadoResponse detalhar(Long id) {
+        return chamadoRepository.findById(id)
+                .map(ChamadoResponse::de)
+                .orElseThrow(() -> new RecursoNaoEncontradoException(
+                        "Chamado " + id + " não encontrado"));
+    }
+}               

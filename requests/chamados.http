@@ -1,6 +1,7 @@
 @baseUrl = http://localhost:8080
 
 ### Abrir chamado CRITICA
+# @name abrirChamado
 POST {{baseUrl}}/chamados
 Content-Type: application/json
 
@@ -8,7 +9,7 @@ Content-Type: application/json
   "titulo": "Sistema de vendas fora do ar",
   "descricao": "Ninguém consegue acessar o sistema desde as 9h",
   "prioridade": "CRITICA",
-  "setorId": 2,
+  "setorId": 4,
   "solicitanteId": 1
 }
 
@@ -20,7 +21,7 @@ Content-Type: application/json
   "titulo": "",
   "descricao": "Teste",
   "prioridade": "BAIXA",
-  "setorId": 2,
+  "setorId": 4,
   "solicitanteId": 1
 }
 
@@ -32,7 +33,7 @@ Content-Type: application/json
   "titulo": "Teste",
   "descricao": "Teste",
   "prioridade": "URGENTISSIMA",
-  "setorId": 2,
+  "setorId": 4,
   "solicitanteId": 1
 }
 
@@ -44,6 +45,24 @@ Content-Type: application/json
   "titulo": "Teste",
   "descricao": "Teste",
   "prioridade": "BAIXA",
-  "setorId": 2,
+  "setorId": 4,
   "solicitanteId": 999
 }
+
+### Listar (padrão: 20 por página, ordenado pelo prazo)
+GET {{baseUrl}}/chamados
+
+### Filtrar por status
+GET {{baseUrl}}/chamados?status=ABERTO
+
+### Página e tamanho personalizados
+GET {{baseUrl}}/chamados?page=0&size=5
+
+### Status inválido deve dar 400
+GET {{baseUrl}}/chamados?status=XYZ
+
+### Detalhar
+GET {{baseUrl}}/chamados/{{abrirChamado.response.body.id}}
+
+### Chamado inexistente deve dar 404
+GET {{baseUrl}}/chamados/9999
