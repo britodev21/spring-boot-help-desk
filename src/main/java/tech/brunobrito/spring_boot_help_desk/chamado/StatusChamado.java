@@ -10,7 +10,7 @@ public enum StatusChamado {
 
     public boolean podeIrPara(StatusChamado novo) {
         return switch (this) {
-            case ABERTO -> novo == ABERTO || novo == CANCELADO;
+            case ABERTO -> novo == EM_ATENDIMENTO || novo == CANCELADO;
             case EM_ATENDIMENTO -> novo == AGUARDANDO_SOLICITANTE || novo == RESOLVIDO;
             case AGUARDANDO_SOLICITANTE -> novo == EM_ATENDIMENTO;
             case RESOLVIDO -> novo == FECHADO || novo == EM_ATENDIMENTO;
@@ -18,9 +18,11 @@ public enum StatusChamado {
         };
     }
 
-
     public boolean isEncerrado() {
     return this == RESOLVIDO || this == FECHADO || this == CANCELADO;
-}
+    }
 
+    public boolean isFinal() {
+    return this == FECHADO || this == CANCELADO;
+    }
 }

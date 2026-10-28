@@ -50,4 +50,17 @@ class StatusChamadoTest {
     void canceladoNaoVaiParaNenhumStatus(StatusChamado novo) {
         assertFalse(StatusChamado.CANCELADO.podeIrPara(novo));
     }
+
+    @ParameterizedTest
+    @EnumSource(value = StatusChamado.class, names = {"FECHADO", "CANCELADO"})
+    void fechadoECanceladoSaoFinais(StatusChamado status) {
+    assertTrue(status.isFinal());
+    }
+
+    @ParameterizedTest
+    @EnumSource(value = StatusChamado.class, names = {"FECHADO", "CANCELADO"},
+        mode = EnumSource.Mode.EXCLUDE)
+    void demaisStatusNaoSaoFinais(StatusChamado status) {
+        assertFalse(status.isFinal());
+    }
 }

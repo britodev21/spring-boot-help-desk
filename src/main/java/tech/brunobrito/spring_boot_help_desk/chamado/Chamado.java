@@ -1,6 +1,7 @@
 package tech.brunobrito.spring_boot_help_desk.chamado;
 
 import java.time.Instant;
+import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,6 +15,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import tech.brunobrito.spring_boot_help_desk.setor.Setor;
 import tech.brunobrito.spring_boot_help_desk.usuario.Usuario;
+import tech.brunobrito.spring_boot_help_desk.infra.exception.RegraNegocioException;
 
 @Entity
 @Table(name = "chamados")
@@ -72,6 +74,47 @@ public class Chamado {
 
     public boolean isAtrasado() {
         return !status.isEncerrado() && Instant.now().isAfter(prazoSla);
+    }
+
+    public void assumir(Usuario tecnico) {
+        Objects.requireNonNull(tecnico, "técnico é obrigatório");
+        if (status != StatusChamado.ABERTO) {
+            throw new RegraNegocioException(
+                    "Só dá para assumir um chamado ABERTO. Status atual: " + status);
+        }
+        alterarStatus(StatusChamado.EM_ATENDIMENTO);
+        this.tecnico = tecnico;
+    }
+
+    public void mudarStatus(StatusChamado novo) {
+        if (status == StatusChamado.ABERTO && novo == StatusChamado.EM_ATENDIMENTO) {
+            throw new RegraNegocioException(
+                    "Para iniciar o atendimento, o técnico precisa assumir o chamado.");
+        }
+        alterarStatus(novo);
+    }
+
+    public void garantirQueAceitaMudancas() {
+        if (status.isFinal()) {
+            throw new RegraNegocioException(
+                    "Chamado %s não aceita mais mudanças.".formatted(status));
+        }
+    }
+
+    private void alterarStatus(StatusChamado novo) {
+        garantirQueAceitaMudancas();
+        if (!status.podeIrPara(novo)) {
+            throw new RegraNegocioException(
+                    "Não é possível ir de %s para %s.".formatted(status, novo));
+        }
+        Instant agora = Instant.now();
+        this.status = novo;
+        this.atualizadoEm = agora;
+        if (novo == StatusChamado.RESOLVIDO) {
+            this.resolvidoEm = agora;
+        } else if (novo == StatusChamado.EM_ATENDIMENTO) {
+            this.resolvidoEm = null;
+        }
     }
 
     public Long getId() {

@@ -9,5 +9,4 @@ public class SpringBootHelpDeskApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringBootHelpDeskApplication.class, args);
 	}
-
 }
